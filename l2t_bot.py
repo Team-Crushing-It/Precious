@@ -60,7 +60,7 @@ async def on_member_join(member):
     await general_channel.send(f"Hi there :wave_tone2: {member.mention}. " + choice(welcome))
 
 
-bot.run("ODg1MTUwNTgxNDc0MzUzMTU0.YTi2tw.8jMocliTYu1ZqXaw4S0det76maY")
+bot.run("ODg0ODg4OTAzMjAxNDY0MzIw.YTfDAg.46XLFQWRJHe9z5fPbGB9dzS7fCc")
 
 
 '''
