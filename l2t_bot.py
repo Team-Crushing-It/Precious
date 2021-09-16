@@ -42,8 +42,7 @@ async def on_ready():
     welcome_channel = get(Mguild.text_channels, name="welcome")
     # messages = await welcome_channel.history(limit=10).flatten()
     role = get(Mguild.roles, name='learner')
-    await welcome_channel.send("click on :white_check_mark: if you agree with rules in order to gain access to the server. And, by agreeing to these terms, you also agree that that I am better than you at many things. Because I'm a bot.")
-    Moji = await welcome_channel.send("heey ")
+    Moji = await welcome_channel.send("click on :white_check_mark: if you agree with rules in order to gain access to the server. And, by agreeing to these terms, you also agree that that I am better than you at many things. Because I'm a bot.")
     await Moji.add_reaction( emoji='✅')
 # ! look for wait for fun
 @bot.event
