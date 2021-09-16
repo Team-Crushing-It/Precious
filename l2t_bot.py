@@ -43,15 +43,16 @@ async def on_ready():
     # messages = await welcome_channel.history(limit=10).flatten()
     role = get(Mguild.roles, name='learner')
     await welcome_channel.send("click on :white_check_mark: if you agree with rules in order to gain access to the server. And, by agreeing to these terms, you also agree that that I am better than you at many things. Because I'm a bot.")
-
-    def check(reaction, user):
-        return str(reaction.emoji) == "✅"
-    while 1:
-        reaction, user = await bot.wait_for('reaction_add', check=check)
-        if str(reaction.emoji) == "✅":
-            await user.add_roles(role)
+    Moji = await welcome_channel.send("heey ")
+    await Moji.add_reaction( emoji='✅')
 # ! look for wait for fun
-
+@bot.event
+async def on_reaction_add(reaction, user):
+    Mguild = bot.get_guild(id=guild_id)
+    Channel = get(Mguild.text_channels, name="welcome")
+    if reaction.emoji == "✅":
+      Role = get(Mguild.roles, name="learner")
+      await user.add_roles(Role)
 
 @bot.event
 async def on_member_join(member):
