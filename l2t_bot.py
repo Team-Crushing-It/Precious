@@ -4,7 +4,7 @@ from discord.utils import get
 
 # github section
 
-guild_id = 880750926758023189
+guild_id = 878729479025991750
 rules_message_id = 885645217246625794
 # An array/list of welcome messages
 
