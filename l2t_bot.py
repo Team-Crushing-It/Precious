@@ -4,8 +4,8 @@ from discord.utils import get
 
 # github section
 
-guild_id = 878729479025991750
-
+guild_id = 880750926758023189
+rules_message_id = 885645217246625794
 # An array/list of welcome messages
 
 welcome = ['Did you know that I am sentient?',
@@ -27,7 +27,7 @@ welcome = ['Did you know that I am sentient?',
 #
 # ? robot test server
 #!guild :  880750926758023189
-#!rules message : 885910996693168199
+#!rules message : 888825288929189978
 
 
 intents = discord.Intents.default()
@@ -40,18 +40,21 @@ async def on_ready():
     print(f'We have logged in as {bot.user}')
     Mguild = bot.get_guild(id=guild_id)
     welcome_channel = get(Mguild.text_channels, name="welcome")
-    # messages = await welcome_channel.history(limit=10).flatten()
-    role = get(Mguild.roles, name='learner')
-    Moji = await welcome_channel.send("click on :white_check_mark: if you agree with rules in order to gain access to the server. And, by agreeing to these terms, you also agree that that I am better than you at many things. Because I'm a bot.")
-    await Moji.add_reaction( emoji='✅')
+    messages = await welcome_channel.history(limit=10).flatten()
+    #role = get(Mguild.roles, name='learner')
+    #await welcome_channel.send("click on :white_check_mark: if you agree with rules in order to gain access to the server. And, by agreeing to these terms, you also agree that that I am better than you at many things. Because I'm a bot.")
+    #Moji = await welcome_channel.send("heey ")
+    rules_message =  [i for i in messages if i.id == rules_message_id][0]
+    await rules_message.add_reaction( emoji='✅')
+    #await rules_message.clear_reaction( emoji='✅')
 # ! look for wait for fun
 @bot.event
-async def on_reaction_add(reaction, user):
+async def on_raw_reaction_add(payload):
     Mguild = bot.get_guild(id=guild_id)
     Channel = get(Mguild.text_channels, name="welcome")
-    if reaction.emoji == "✅":
+    if payload.emoji.name == "✅" and payload.message_id == rules_message_id and payload.channel_id == Channel.id:
       Role = get(Mguild.roles, name="learner")
-      await user.add_roles(Role)
+      await payload.member.add_roles(Role)
 
 @bot.event
 async def on_member_join(member):
@@ -61,7 +64,6 @@ async def on_member_join(member):
 
 
 bot.run("ODg0ODg4OTAzMjAxNDY0MzIw.YTfDAg.46XLFQWRJHe9z5fPbGB9dzS7fCc")
-
 
 '''
 @client.event
@@ -79,4 +81,3 @@ async def on_member_join(member):
 # ?     print(messa.content)
 # ?    # if messa.id == rules_message_id:
 # ?     #    await messa.add_reaction(emoji="✅")
-
