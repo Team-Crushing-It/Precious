@@ -1,1 +1,1 @@
-worker: python l2t_bot.py
+worker: python main.py

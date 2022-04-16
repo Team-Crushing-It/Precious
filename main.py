@@ -1,7 +1,9 @@
 import discord
 from random import choice
 from discord.utils import get
-
+import os
+from dotenv import load_dotenv
+load_dotenv()
 # defining the guild id (server id) we'll use it later
 guild_id = 878729479025991750
 # defining the rules message we'll use it later
@@ -39,18 +41,19 @@ intents.members = True
 # from discord api : 
 # discord.Client
 # Represents a client connection that connects to Discord.
-bot = discord.Client(intents=intents)
-
+# ! bot = discord.Client(intents=intents)
+bot = discord.Bot(intents=intents)
 # this function is called when the bot joins 
 # the server for the first time
 @bot.event
 async def on_ready():
+    await bot.change_presence(status=discord.Status.do_not_disturb,activity=discord.Activity(type=discord.ActivityType.listening, name="people's praise"))
     print(f'We have logged in as {bot.user}')
     # here we are specifying the guild id 
     # bcs we need to get a specific msg(rules message)
     # and when someone click the checks the green mark emoji 
     # precious gives him the learner role wich allow him to acces the server
-    Mguild = bot.get_guild(id=guild_id)
+    Mguild = bot.get_guild(guild_id)
     # here we are getting the channel that contains rules (welcome channel) by it's name
     welcome_channel = get(Mguild.text_channels, name="welcome")
     # here we are getting the history to get the message that contains rules in the welcome 
@@ -75,7 +78,7 @@ async def on_ready():
 async def on_raw_reaction_add(payload):
     # here we are getting the L2T server
     # it maybe a bad practice but we are using precious only in L2T server
-    Mguild = bot.get_guild(id=guild_id)
+    Mguild = bot.get_guild(guild_id)
     # here we are getting the channel that contains rules (welcome channel) by it's name
     Channel = get(Mguild.text_channels, name="welcome")
     # we are checking if the emoji is ✅ and the message that got the emoji is the rules message
@@ -91,10 +94,10 @@ async def on_member_join(member):
     # here we are getting the general channel to say hi to the new member and tell him a "joke"
     general_channel = get(member.guild.text_channels, name="general")
     # no need of this but we don't what to delete anything we are afraid of breaking the code :) 
-    welcome_channel = get(member.guild.text_channels, name="welcome")
+    # welcome_channel = get(member.guild.text_channels, name="welcome")
     # here we are sending a message that welcomes the use and tells him a random "joke" 
     # using the choice function , this functions gets a random item from the welcome list(which contains jokes)
     await general_channel.send(f"Hi there :wave_tone2: {member.mention}. " + choice(welcome))
 
 # here we are running the bot and telling the API which bot we are using
-bot.run("ODg0ODg4OTAzMjAxNDY0MzIw.YTfDAg.46XLFQWRJHe9z5fPbGB9dzS7fCc")
+bot.run(os.getenv('TOKEN'))
